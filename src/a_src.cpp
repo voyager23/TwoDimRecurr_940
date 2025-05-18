@@ -29,28 +29,28 @@ using namespace std;
 typedef vector<vector<long int>> Matrix; 
 const vector<long int> fib = {0,1,1,2,3,5,8,13,21,34,55};	// fib[10] = 55;
 
-void set_right_cell(Matrix& A, size_t m, size_t n) {
-	if((A[m][n] == 0) or (A[m][n+1] == 0)) {
-		cout << "set_right_cell Error\n";
-		exit(1);
-	}
-	A[m+1][n] = A[m][n] + A[m][n+1];
+void set_right_cell(Matrix& A, size_t n, size_t m) {	// n -> row, m-> col
+	//~ if((A[m][n] == 0) or (A[m][n+1] == 0)) {
+		//~ cout << "set_right_cell Error\n";
+		//~ //exit(1);
+	//~ }
+	A[n][m+1] = A[n][m] + A[n+1][m];
 }
 
-void set_diag_cell(Matrix& A, size_t m, size_t n) {
-	if((A[m][n] == 0) or (A[m+1][n] == 0)) {
-		cout << "set_diag_cell Error\n";
-		exit(1);
-	}
-	A[m+1][n+1] = A[m][n] + 2*A[m][n+1];
+void set_diag_cell(Matrix& A, size_t n, size_t m) {
+	//~ if((A[m][n] == 0) or (A[m+1][n] == 0)) {
+		//~ cout << "set_diag_cell Error\n";
+		//~ //exit(1);
+	//~ }
+	A[n+1][m+1] = A[n][m] + 2*(A[n][m+1]);
 }
 
-void set_up_cell(Matrix& A, size_t m, size_t n) {
-	if((A[m+1][n] == 0) or (A[m][n] == 0)) {
-		cout << "set_up_cell Error\n";
-		exit(1);
-	}
-	A[m][n+1] = A[m+1][n] + A[m][n];	
+void set_up_cell(Matrix& A, size_t n, size_t m) {
+	//~ if((A[m+1][n] == 0) or (A[m][n] == 0)) {
+		//~ cout << "set_up_cell Error\n";
+		//~ //exit(1);
+	//~ }
+	A[n+1][m] = A[n][m+1] - A[n][m];	
 }
 
 void prt_matrix(Matrix& A, const long int limit) {
@@ -62,13 +62,80 @@ void prt_matrix(Matrix& A, const long int limit) {
 
 int main(int argc, char **argv)
 {
-	const long int k = 5;
+	const long int k = 6;
 	const long int limit = fib[k];
 	
 	Matrix matrix(limit, vector<long int>(limit,0));
 	matrix[0][0] = 0;
 	matrix[1][0] = 1;
+	
 	prt_matrix(matrix,limit);
+	cout << endl;
+	
+	// set value in A[1][1]
+	set_right_cell(matrix,0,0);
+	prt_matrix(matrix,limit);
+	cout << endl;	
+	set_diag_cell(matrix,0,0);
+	prt_matrix(matrix,limit);
+	cout << endl;
+	// set value in A[1][2]
+	set_right_cell(matrix,0,1);
+	prt_matrix(matrix,limit);
+	cout << endl;	
+	set_diag_cell(matrix,0,1);
+	prt_matrix(matrix,limit);
+	cout << endl;
+	cout << endl;
+	
+	// starting at base of column[1]
+	set_diag_cell(matrix,1,1);
+	prt_matrix(matrix,limit);
+	cout << endl;	
+	set_up_cell(matrix,1,1);
+	prt_matrix(matrix,limit);
+	cout << endl;	
+	
+	set_diag_cell(matrix,2,1);
+	prt_matrix(matrix,limit);
+	cout << endl;	
+	set_up_cell(matrix,2,1);
+	prt_matrix(matrix,limit);
+	cout << endl;	
+	
+	set_diag_cell(matrix,3,1);
+	prt_matrix(matrix,limit);
+	cout << endl;	
+	set_up_cell(matrix,3,1);
+	prt_matrix(matrix,limit);
+	cout << endl;	
+	cout << endl;	
+	
+	// starting at base of column[2]
+	cout << "==========" << endl;	
+	set_right_cell(matrix,0,2);
+	prt_matrix(matrix,limit);
+	cout << endl;	
+
+	set_right_cell(matrix,1,2);
+	prt_matrix(matrix,limit);
+	cout << endl;	
+
+	set_right_cell(matrix,2,2);
+	prt_matrix(matrix,limit);
+	cout << endl;	
+	
+	set_right_cell(matrix,3,2);
+	prt_matrix(matrix,limit);
+	cout << endl;	
+	
+	set_right_cell(matrix,4,2);
+	prt_matrix(matrix,limit);
+	cout << endl;	
+	
+	
+
+	
 	
 	return 0;
 }
