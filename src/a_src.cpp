@@ -131,6 +131,10 @@ int main(int argc, char **argv)
 	
 	set_right_cell(matrix,4,2);
 	prt_matrix(matrix,limit);
+	cout << endl;
+	
+	set_right_cell(matrix,4,2);
+	prt_matrix(matrix,limit);
 	cout << endl;	
 	
 	
