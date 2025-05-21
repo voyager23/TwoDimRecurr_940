@@ -1,14 +1,13 @@
 # Makefile for test folder
 
-CFLAGS = --std=c++20 -fdiagnostics-color=never
+CFLAGS = --std=c++20 -fdiagnostics-color=never -Wall
 #-fpermissive
 DEBUG = -g
-INC = Amatrix.cpp
 
 b_src : b_src.cpp
 	#@echo "b_src - Clearing"
 	clear
-	g++ $(CFLAGS) $(DEBUG) $@.cpp $(INC) -o ../bin/$@
+	g++ $(CFLAGS) $(DEBUG) $@.cpp  -o ../bin/$@
 	@ln -frs ../bin/b_src ../bin/bin_link
 	@symlinks -v ../bin
 

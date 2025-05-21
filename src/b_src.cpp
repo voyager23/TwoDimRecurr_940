@@ -24,6 +24,7 @@
 
 #include <iostream>
 #include <vector>
+#include <cstdint>
 #include "../inc/Amatrix.hpp"
 using namespace std;
 
@@ -31,11 +32,15 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
+	const int64_t k = 6;
+	Amatrix amatrix(k);	
+	amatrix.print_matrix();
 	
-	Amatrix<long> amatrix(6);
-	
-	amatrix.print();
-	
+	for(int64_t c = 0; c != 4; ++c) {
+		amatrix.scan_col(c);
+		amatrix.print_matrix();
+	}
+
 	
 	return 0;
 }
