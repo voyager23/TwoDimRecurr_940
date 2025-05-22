@@ -36,10 +36,21 @@ int main(int argc, char **argv)
 	Amatrix amatrix(k);	
 	amatrix.print_matrix();
 	
-	for(int64_t c = 0; c != 4; ++c) {
+	for(int64_t c = 0; c != 8; ++c) {
 		amatrix.scan_col(c);
 		amatrix.print_matrix();
 	}
+	
+	// calc a basic result S(5)
+	int64_t S = 0;
+	for(int64_t i = 1; i < 6; ++i) {
+		if(i==4) continue;
+		for(int64_t j = 1; j < 6; ++j)	{
+			if(j==4) continue;
+			S += amatrix.matrix[i][j];
+		}
+	}
+	cout << "S(5) = " << S << endl;
 
 	
 	return 0;
