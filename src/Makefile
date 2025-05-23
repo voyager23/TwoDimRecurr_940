@@ -3,7 +3,16 @@
 CFLAGS = --std=c++20 -fdiagnostics-color=never -Wall
 #-fpermissive
 DEBUG = -g
+INC =
 
+
+c_src : c_src.cpp
+	#@echo "c_src - Clearing"
+	clear
+	g++ $(CFLAGS) $(DEBUG) $@.cpp $(INC) -o ../bin/$@
+	@ln -frs ../bin/c_src ../bin/bin_link
+	@symlinks -v ../bin
+	
 b_src : b_src.cpp
 	#@echo "b_src - Clearing"
 	clear
@@ -11,12 +20,7 @@ b_src : b_src.cpp
 	@ln -frs ../bin/b_src ../bin/bin_link
 	@symlinks -v ../bin
 
-a_src : a_src.cpp
-	#@echo "a_src - Clearing"
-	clear
-	g++ $(CFLAGS) $(DEBUG) $@.cpp $(INC) -o ../bin/$@
-	@ln -frs ../bin/a_src ../bin/bin_link
-	@symlinks -v ../bin
+
 
 # ============================================
 
