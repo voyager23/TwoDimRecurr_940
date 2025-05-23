@@ -28,29 +28,31 @@
 #include "../inc/Amatrix.hpp"
 using namespace std;
 
-
-
 int main(int argc, char **argv)
 {
-	const int64_t k = 6;
-	Amatrix amatrix(k);	
-	amatrix.print_matrix();
+	const vector<int64_t> fib = {0,1,1,2,3,5,8,13,21,34,55,89,144};	// fib[12] = 144;
+	const int64_t modulus = 97;
+	const int64_t k = 5;
+	Amatrix amatrix(k, modulus);	
 	
-	for(int64_t c = 0; c != 8; ++c) {
+	for(int64_t c = 0; c != fib[k]; ++c) {	// limit is fib[k]
 		amatrix.scan_col(c);
-		amatrix.print_matrix();
 	}
+	
+	amatrix.print_matrix();
 	
 	// calc a basic result S(5)
 	int64_t S = 0;
-	for(int64_t i = 1; i < 6; ++i) {
+	for(int64_t i = 1; i < k+1; ++i) {
 		if(i==4) continue;
-		for(int64_t j = 1; j < 6; ++j)	{
+		for(int64_t j = 1; j < k+1; ++j)	{
 			if(j==4) continue;
 			S += amatrix.matrix[i][j];
+			S %= modulus;
 		}
 	}
-	cout << "S(5) = " << S << endl;
+	if(S < 0) S += modulus;
+	cout << "S(5) mod 97 = " << S << endl;
 
 	
 	return 0;
