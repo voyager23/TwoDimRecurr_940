@@ -6,21 +6,12 @@ DEBUG = -g
 INC =
 
 
-c_src : c_src.cpp
-	#@echo "c_src - Clearing"
+a_solution : a_solution.cpp
+	#@echo "a_solution - Clearing"
 	clear
 	g++ $(CFLAGS) $(DEBUG) $@.cpp $(INC) -o ../bin/$@
-	@ln -frs ../bin/c_src ../bin/bin_link
+	@ln -frs ../bin/a_solution ../bin/bin_link
 	@symlinks -v ../bin
-	
-b_src : b_src.cpp
-	#@echo "b_src - Clearing"
-	clear
-	g++ $(CFLAGS) $(DEBUG) $@.cpp  -o ../bin/$@
-	@ln -frs ../bin/b_src ../bin/bin_link
-	@symlinks -v ../bin
-
-
 
 # ============================================
 
