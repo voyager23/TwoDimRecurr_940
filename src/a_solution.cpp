@@ -28,7 +28,21 @@
 
 using namespace std;
 
+struct Status {
+	int64_t S = 30;
+	int64_t k = 3;
+	int64_t fib_k = 2;
+	int64_t idx   = 2; // current index
+	int64_t w_r0  = 3;
+	int64_t w_c0  = 1;
+	int64_t w_r1  = 7;
+	int64_t w_c1  = 2;
+	int64_t temp  = 0;
+	const int64_t modulus = 97;
+};
+
 struct Fibonacci {
+	
 	int64_t d = 1;	// n-2
 	int64_t e = 1;	// n-1
 	int64_t f = 2;	// fibonacci[k]
@@ -38,73 +52,67 @@ struct Fibonacci {
 		d = e;
 		e = f;
 		f = d + e;
-		idx += 1;
+		k += 1;
 		return f;
 	}
 	
 	int64_t get_fib(size_t i) {
-		if(i < idx) {
+		if(i < k) {
 			cout << "get_fib() error: requested index < current index" << endl;
 			exit(1);
 		}
-		while(idx < i) (void) next_fib();
+		while(k < i) (void) next_fib();
 		return f;		
-	}	
+	}
+	
 };
 
-struct Column0 {
-	int64_t a_n2 = 0;
-	int64_t a_n1 = 1;
-	int64_t a_n  = 3;	// 3*a_n1 + n2
-	size_t idx = 2;
+struct Column {
+	int64_t a_n2;
+	int64_t a_n1;
+	int64_t a_n;	// 3*a_n1 + n2
+	size_t  idx;
 	
-	int64_t next_col0() {
+	Column() {};	// default constructor
+	Column(int64_t n2, int64_t n1, int64_t n, int64_t i) : a_n2(n2), a_n1(n1), a_n(n), idx(i) {};
+	
+	int64_t up() {
 		a_n2 = a_n1;
 		a_n1 = a_n;
 		a_n  = 3*a_n1 + a_n2;
 		idx += 1;
 		return a_n;
 	}
+	
+	void prt_col() { cout << a_n2 << " " << a_n1 << " " << a_n << endl; }
 };
 
-struct Row0 {
-	int64_t a_n2 = 0;
-	int64_t a_n1 = 1;
-	int64_t a_n  = 1;	// 3*a_n2 + n1
-	size_t idx = 2;
+struct Row {
+	int64_t a_n2;
+	int64_t a_n1;
+	int64_t a_n;	// 3*a_n2 + n1
+	size_t idx;
 	
-	int64_t next_col0() {
+	Row() {};	// default constructor
+	Row(int64_t n2, int64_t n1, int64_t n, int64_t i) : a_n2(n2), a_n1(n1), a_n(n), idx(i) {};
+	
+	int64_t rt() {
 		a_n2 = a_n1;
 		a_n1 = a_n;
-		a_n  = 3*a_n1 + a_n2;
+		a_n  = 3*a_n2 + a_n1;
 		idx += 1;
 		return a_n;
-	}	
+	}
+	
+	void prt_row() { cout << a_n2 << " " << a_n1 << " " << a_n << endl; }
+	
 };
 
-struct Status {
-	int64_t S = 30;
-	int64_t k = 3;
-	int64_t fib_k = 2;
-	int64_t idx   = 2; // controlled by fib[k]
-	int64_t w_r0  = 3;
-	int64_t w_r1  = 7;
-	int64_t w_c0  = 1;
-	int64_t w_c1  = 5;
-	int64_t temp  = 0;
-	const int64_t modulus = 97;
-}
-
-int main(int argc, char **argv)
-{
-	const int64_t target = 5;
-	Fibonacci fib;
-	Status status;
-	// Initialised for S(3), Sum = 30, fib[3] = 2
-	while(status.k != target) {
+		// Outline
 		/*
 		 * increment k
-		 * calc fib[k] -> next row/col index
+		 * calc fib[k] -> next required row/col index
+		 * 
 		 * while status.idx != fib[k]
 		 * 		move col0 up 1 row
 		 * 		move col1 up 1 row
@@ -114,15 +122,45 @@ int main(int argc, char **argv)
 		 * calc modified colsum (exclude final vakue)
 		 * S += (rowsum + colsum
 		 */
-	 }
- }
+		 
+int main(int argc, char **argv)
+{
+	const int64_t target = 5;
 	
+	int64_t S = 30;		// current sum
+	int64_t k = 3;		// current k
+	int64_t idx = 2;	// current idx
 	
+	Fibonacci fib;	// k = 3, fib[k] = 2
+	// Setup for current state
+	Column col0(0,1,3,2);
+	Column col1(0,2,7,2);
+	
+	Row row1(1,2,5,2);
+	Row row0(0,1,1,2);
 
 	
-
-
-
+	while(k != target) {
+		++k;
+		int64_t next_idx = fib.get_fib(k);
+		while(idx != next_idx) {
+			col0.up();
+			col1.up();
+			row0.rt();
+			row1.rt();
+			idx++;
+		}
+		// using col0 and col1 calc the row_sum
+		
+		// using row0 and row1 calc the reduced col_sum
+		
+		// S += row_sum + reduced_col_sum
+	}
+	
+	col0.prt_col();	
+	col1.prt_col();	
+	row0.prt_row();	
+	row1.prt_row();	
 	
 	return 0;
 }
