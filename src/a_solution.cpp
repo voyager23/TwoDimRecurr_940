@@ -71,7 +71,7 @@ struct Column {
 	int64_t a_n2;
 	int64_t a_n1;
 	int64_t a_n;	// 3*a_n1 + n2
-	size_t  idx;
+	int64_t  idx;
 	
 	Column() {};	// default constructor
 	Column(int64_t n2, int64_t n1, int64_t n, int64_t i) : a_n2(n2), a_n1(n1), a_n(n), idx(i) {};
@@ -91,7 +91,7 @@ struct Row {
 	int64_t a_n2;
 	int64_t a_n1;
 	int64_t a_n;	// 3*a_n2 + n1
-	size_t idx;
+	int64_t idx;
 	
 	Row() {};	// default constructor
 	Row(int64_t n2, int64_t n1, int64_t n, int64_t i) : a_n2(n2), a_n1(n1), a_n(n), idx(i) {};
@@ -130,13 +130,14 @@ int main(int argc, char **argv)
 	int64_t S = 30;		// current sum
 	int64_t k = 3;		// current k
 	int64_t idx = 2;	// current idx
+	int64_t row_sum, col_sum;
 	
 	Fibonacci fib;	// k = 3, fib[k] = 2
 	// Setup for current state
-	Column col0(0,1,3,2);
+	Column col0(0,1,3,2);	// vertical columns
 	Column col1(0,2,7,2);
 	
-	Row row1(1,2,5,2);
+	Row row1(1,2,5,2);		// horizontal rows
 	Row row0(0,1,1,2);
 
 	
@@ -150,17 +151,31 @@ int main(int argc, char **argv)
 			row1.rt();
 			idx++;
 		}
-		// using col0 and col1 calc the row_sum
-		
-		// using row0 and row1 calc the reduced col_sum
-		
-		// S += row_sum + reduced_col_sum
+		// using col0 and col1 constuct a temp row
+		Row rowtmp(0, col0.a_n, col1.a_n, 1);
+		row_sum = col1.a_n;
+		while(true) {
+			rowtmp.rt();
+			if(rowtmp.idx > next_idx) break;
+			row_sum += rowtmp.a_n;
+			cout << rowtmp.a_n << " ";
+		}
+		cout << endl;	
+		// using row0 and row1 construct a temp column
+		Column coltmp(0, row0.a_n, row1.a_n, 1);
+		col_sum = row1.a_n;
+		while(true) {
+			coltmp.up();
+			if(coltmp.idx == next_idx) break;
+			col_sum += coltmp.a_n;
+			cout << coltmp.a_n << " ";
+		}
+		cout << endl;
+		S += row_sum + col_sum;
 	}
 	
-	col0.prt_col();	
-	col1.prt_col();	
-	row0.prt_row();	
-	row1.prt_row();	
+	cout << "S: " << S << endl;
+	cout << "S(5) = 10396   no modulus.";
 	
 	return 0;
 }

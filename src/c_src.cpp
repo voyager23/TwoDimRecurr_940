@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  * 
- * 
+ * lpr -P ENVY_5530_series S5.txt
  */
 
 
@@ -31,8 +31,8 @@ using namespace std;
 int main(int argc, char **argv)
 {
 	const vector<int64_t> fib = {0,1,1,2,3,5,8,13,21,34,55,89,144};	// fib[12] = 144;
-	const int64_t modulus = 97;
-	const int64_t k = 6;
+	const int64_t modulus = 999999999;
+	const int64_t k = 5;
 	Amatrix amatrix(k, modulus);	
 	
 	for(int64_t c = 0; c != fib[k]; ++c) {	// limit is fib[k]
