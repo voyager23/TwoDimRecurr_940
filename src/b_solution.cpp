@@ -98,31 +98,34 @@ struct ColDataBlk {
 };
 
 struct RowDataBlk {
-	array<int64_t, 3> a;	// a[0] is most recent, a[1] and a[2] prev values
+	// Describes the values in col0 and col1 with current row number
+	array<int64_t, 4> a;	// a[0] a[1] are the current values, a[2] and a[3] are new values
 	int64_t posn;
 	
-	RowDataBlk(int64_t _a0, int64_t _a1, int64_t _a2, int64_t p) {
+	RowDataBlk(int64_t _a0, int64_t _a1, int64_t p) {
 		a[0] = _a0;
 		a[1] = _a1;
-		a[2] = _a2;
+		a[2] = 0;
+		a[3] = 0;
 		posn = p;
 	}
 	
-	void move_north(int64_t fib_col) {
-		if(fib_col < posn) {
+	void move_north(int64_t fib_row) {
+		if(fib_row < posn) {
 			cout << "move_north cannot move to lower index." << endl;
 			exit(1);
 		}
-		while(posn < fib_col) {
-			a[2] = a[1];
-			a[1] = a[0];
-			a[0] = a[1] + 3*a[2];
+		while(posn < fib_row) {
+			a[2] = a[0] + a[1];
+			a[3] = 2*a[2] + a[0];
+			a[0] = a[2];
+			a[1] = a[3];
 			posn++;
 		}
 	}
 	
 	void prt_block() {
-		cout << "Posn: " << posn << "  " << a[0] << "," << a[1] << "," << a[2] << endl;
+		cout << "Posn: " << posn << "  " << a[0] << "," << a[1] << endl;
 	}
 };
 
@@ -136,7 +139,7 @@ int main(int argc, char **argv)
 	int64_t x = 1, y = 1;	// current working column x, row y.
 	
 	// setup the initial RowDataBlk
-	RowDataBlk rdb(1,0,0,0);
+	RowDataBlk rdb(0,1,0);
 	rdb.prt_block();
 	for(i = 2; i <= K; ++i) {
 		fi = fib_map[i];
