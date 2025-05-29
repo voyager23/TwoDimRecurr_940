@@ -133,7 +133,7 @@ int main(int argc, char **argv)
 {
 	unordered_map<int64_t, int64_t> fib_map;
 	(void) read_fibonacci_map("b000045.txt", 50, fib_map);
-	const int64_t K = 5;
+	const int64_t K = 50;
 	int64_t S = 2;
 	int64_t i, fi, j, fj;	// fibonacci row, fibonacci col
 	int64_t x = 1, y = 1;	// current working column x, row y.
@@ -144,6 +144,7 @@ int main(int argc, char **argv)
 	for(i = 2; i <= K; ++i) {
 		fi = fib_map[i];
 		rdb.move_north(fi);
+		cout << i << "] ";
 		rdb.prt_block();
 	}	
 	return 0;
